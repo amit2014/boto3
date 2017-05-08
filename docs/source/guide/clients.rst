@@ -2,8 +2,8 @@
 
 Low-level Clients
 =================
-Clients provide a low-level interface to AWS whose methods map close to 1:1
-with service APIs. All service operations are supported by clients. Clients
+Low-level clients provide an AWS interface whose methods map close to 1:1
+with service APIs. All service operations are supported by the clients. Clients
 are generated from a JSON service definition file.
 
 Creating Clients
@@ -55,7 +55,7 @@ list is always returned, even when the response has no key ``'QueueUrls'``::
     for url in response.get('QueueUrls', []):
         print(url)
 
-The ``response`` in the example above looks something like this:
+The ``response`` in the example above might look something like this:
 
 .. code-block:: json
 
@@ -87,8 +87,8 @@ to::
     print("sqs waiters:")
     sqs.waiter_names
 
-Note if a client does not have any waiters, it will return an empty list when
-accessing its ``waiter_names`` attribute::
+If a client does not have any waiters, it will return an empty list when you
+access its ``waiter_names`` attribute::
 
     s3 waiters:
     [u'bucket_exists', u'bucket_not_exists', u'object_exists', u'object_not_exists']
@@ -102,7 +102,7 @@ from its list of possible waiters::
     # S3 bucket exists
     s3_bucket_exists_waiter = s3.get_waiter('bucket_exists')
 
-Then to actually start waiting, you must call the waiter's ``wait()`` method
+Then, to actually start waiting, you must call the waiter's ``wait()`` method
 with the method's appropriate parameters passed in::
 
     # Begin waiting for the S3 bucket, mybucket, to exist
