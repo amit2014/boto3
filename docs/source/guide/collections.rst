@@ -8,9 +8,11 @@ Overview
 A collection provides an iterable interface to a group of resources.
 Collections behave similarly to
 `Django QuerySets <https://docs.djangoproject.com/en/1.7/ref/models/querysets/>`_
-and expose a similar API. A collection seamlessly handles pagination for
+and expose a similar API. A collection handles pagination for
 you, making it possible to easily iterate over all items from all pages of
-data. Example of a collection::
+data.
+
+An example of a collection::
 
     # SQS list all queues
     sqs = boto3.resource('sqs')
@@ -53,15 +55,13 @@ the results::
 
    Behind the scenes, the above example will call ``ListBuckets``,
    ``ListObjects``, and ``HeadObject`` many times. If you have a large
-   number of S3 objects then this could incur a significant cost.
+   number of S3 objects, this could incur a significant cost.
 
 Chainability
 ------------
 Collection methods are chainable. They return copies of the collection
 rather than modifying the collection, including a deep copy of any
-associated operation parameters. For example, this allows you
-to build up multiple collections from a base which they all have
-in common::
+associated operation parameters. This allows you to build up multiple collections from a base that they all have in common::
 
     # EC2 find instances
     ec2 = boto3.resource('ec2')
@@ -92,15 +92,14 @@ in common::
 Limiting Results
 ----------------
 It is possible to limit the number of items returned from a collection
-by using either the
+by using the
 :py:meth:`~boto3.resources.collection.ResourceCollection.limit` method::
 
     # S3 iterate over first ten buckets
     for bucket in s3.buckets.limit(10):
         print(bucket.name)
 
-In both cases, up to 10 items total will be returned. If you do not
-have 10 buckets, then all of your buckets will be returned.
+Up to 10 items total will be returned. If you do not have 10 buckets, all of your buckets will be returned.
 
 Controlling Page Size
 ---------------------
@@ -112,7 +111,6 @@ call. You can do so using the
     # S3 iterate over all objects 100 at a time
     for obj in bucket.objects.page_size(100):
         print(obj.key)
-
 
 By default, S3 will return 1000 objects at a time, so the above code
 would let you process the items in smaller batches, which could be
